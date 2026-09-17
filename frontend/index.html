@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="SkillSync - AI-powered resume analysis and job matching."
+    >
+
+    <title>SkillSync — AI Resume Intelligence</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="#" class="logo">
+                <span class="logo-mark">S</span>
+                <span>Skill<span>Sync</span></span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#analyzer">Analyzer</a>
+                <a href="#about">About</a>
+            </nav>
+
+            <a href="#analyzer" class="nav-button">
+                Get Started
+                <span>→</span>
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <!-- ================= HERO ================= -->
+
+        <section class="hero" id="home">
+
+            <div class="hero-glow"></div>
+
+            <div class="hero-content">
+
+                <div class="eyebrow">
+                    <span class="status-dot"></span>
+                    AI-POWERED RESUME INTELLIGENCE
+                </div>
+
+                <h1>
+                    Make your resume
+                    <span>job-ready.</span>
+                </h1>
+
+                <p class="hero-description">
+                    SkillSync analyzes your resume against a job description
+                    and gives you actionable insights to improve your chances
+                    of making it through the hiring process.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a href="#analyzer" class="primary-button">
+                        Analyze My Resume
+                        <span>→</span>
+                    </a>
+
+                    <a href="#about" class="secondary-button">
+                        Learn More
+                    </a>
+
+                </div>
+
+                <div class="hero-trust">
+
+                    <div class="trust-item">
+                        <strong>AI</strong>
+                        <span>Powered Analysis</span>
+                    </div>
+
+                    <div class="trust-divider"></div>
+
+                    <div class="trust-item">
+                        <strong>PDF</strong>
+                        <span>Resume Support</span>
+                    </div>
+
+                    <div class="trust-divider"></div>
+
+                    <div class="trust-item">
+                        <strong>Fast</strong>
+                        <span>AI Insights</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="hero-grid"></div>
+
+        </section>
+
+
+        <!-- ================= ANALYZER ================= -->
+
+        <section class="analyzer-section" id="analyzer">
+
+            <div class="section-header">
+
+                <div class="section-label">
+                    RESUME ANALYZER
+                </div>
+
+                <h2>
+                    Understand how your resume
+                    <span>fits the role.</span>
+                </h2>
+
+                <p>
+                    Upload your resume and provide the job description.
+                    SkillSync will analyze both and generate personalized
+                    recommendations.
+                </p>
+
+            </div>
+
+
+            <div class="analyzer-card">
+
+                <!-- LEFT SIDE -->
+
+                <div class="upload-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <span class="step-number">01</span>
+                            <div>
+                                <h3>Upload your resume</h3>
+                                <p>PDF files up to 4 MB</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="resume" class="upload-box">
+
+                        <div class="upload-icon">
+                            <span>↑</span>
+                        </div>
+
+                        <h4>Drop your resume here</h4>
+
+                        <p>
+                            or
+                            <span>browse from your computer</span>
+                        </p>
+
+                        <small>
+                            PDF format only
+                        </small>
+
+                    </label>
+
+                    <input
+                        type="file"
+                        id="resume"
+                        accept=".pdf,application/pdf"
+                        hidden
+                    >
+
+                    <div id="file-name" class="selected-file"></div>
+
+                </div>
+
+
+                <!-- RIGHT SIDE -->
+
+                <div class="job-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="step-number">02</span>
+
+                            <div>
+                                <h3>Job description</h3>
+                                <p>Paste the role you're targeting</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <textarea
+                        id="jobDescription"
+                        placeholder="Paste the job description here...
+
+Example:
+We are looking for a Software Engineering Intern with strong Java or C++ skills, knowledge of Data Structures and Algorithms, SQL, Git and problem solving."
+                    ></textarea>
+
+                    <div class="analyzer-footer">
+
+                        <div class="secure-note">
+                            <span>✓</span>
+                            AI-powered analysis
+                        </div>
+
+                        <button
+                            id="analyzeButton"
+                            class="analyze-button"
+                        >
+                            Analyze Resume
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOADING -->
+
+            <div id="status" class="loading-card" hidden>
+
+                <div class="loader"></div>
+
+                <div>
+                    <strong>Analyzing your resume</strong>
+                    <p id="status-text">
+                        Uploading and analyzing your resume...
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RESULTS ================= -->
+
+        <section id="results" class="results-section" hidden>
+
+            <div class="results-header">
+
+                <div>
+                    <div class="section-label">
+                        ANALYSIS COMPLETE
+                    </div>
+
+                    <h2>
+                        Your resume
+                        <span>insights.</span>
+                    </h2>
+
+                    <p>
+                        Here's how your resume currently aligns with
+                        the job description.
+                    </p>
+                </div>
+
+                <div class="analysis-badge">
+                    <span class="status-dot"></span>
+                    AI Analysis
+                </div>
+
+            </div>
+
+
+            <!-- SCORE CARDS -->
+
+            <div class="score-grid">
+
+                <div class="score-card">
+
+                    <div class="score-card-top">
+                        <span>ATS COMPATIBILITY</span>
+                        <span class="score-icon">✦</span>
+                    </div>
+
+                    <div class="score-content">
+
+                        <div class="score-ring">
+                            <div class="score-ring-inner">
+                                <strong id="atsScore">--</strong>
+                                <span>/100</span>
+                            </div>
+                        </div>
+
+                        <div class="score-info">
+                            <h3>ATS Score</h3>
+                            <p>
+                                Estimated resume compatibility
+                                with applicant tracking systems.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="score-card">
+
+                    <div class="score-card-top">
+                        <span>JOB COMPATIBILITY</span>
+                        <span class="score-icon">◆</span>
+                    </div>
+
+                    <div class="score-content">
+
+                        <div class="score-ring">
+                            <div class="score-ring-inner">
+                                <strong id="jobMatch">--</strong>
+                                <span>/100</span>
+                            </div>
+                        </div>
+
+                        <div class="score-info">
+                            <h3>Job Match</h3>
+                            <p>
+                                How closely your current skills
+                                match the target role.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SKILLS -->
+
+            <div class="result-grid">
+
+                <div class="result-card">
+
+                    <div class="result-card-header">
+                        <div class="result-icon skills-icon">
+                            ✓
+                        </div>
+
+                        <div>
+                            <h3>Matched Skills</h3>
+                            <p>Skills found in your resume</p>
+                        </div>
+                    </div>
+
+                    <div id="skills" class="tags"></div>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <div class="result-card-header">
+                        <div class="result-icon missing-icon">
+                            +
+                        </div>
+
+                        <div>
+                            <h3>Missing Skills</h3>
+                            <p>Skills that may strengthen your profile</p>
+                        </div>
+                    </div>
+
+                    <div id="missingSkills" class="tags"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DETAILED RESULTS -->
+
+            <div class="details-grid">
+
+                <div class="detail-card">
+
+                    <div class="detail-header">
+                        <span class="detail-number">01</span>
+
+                        <div>
+                            <h3>Strengths</h3>
+                            <p>What's working well</p>
+                        </div>
+                    </div>
+
+                    <ul id="strengths"></ul>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <div class="detail-header">
+                        <span class="detail-number">02</span>
+
+                        <div>
+                            <h3>Areas to improve</h3>
+                            <p>Potential weaknesses identified</p>
+                        </div>
+                    </div>
+
+                    <ul id="weaknesses"></ul>
+
+                </div>
+
+
+                <div class="detail-card improvement-card">
+
+                    <div class="detail-header">
+                        <span class="detail-number">03</span>
+
+                        <div>
+                            <h3>Recommended actions</h3>
+                            <p>Steps to improve your resume</p>
+                        </div>
+                    </div>
+
+                    <ul id="improvements"></ul>
+
+                </div>
+
+            </div>
+
+
+            <div class="results-disclaimer">
+                <span>ⓘ</span>
+                Scores are AI-generated estimates based on the resume and
+                job description provided. They are intended as guidance,
+                not as an official ATS score.
+            </div>
+
+        </section>
+
+
+        <!-- ================= ABOUT ================= -->
+
+        <section class="about-section" id="about">
+
+            <div class="about-card">
+
+                <div class="section-label">
+                    ABOUT SKILLSYNC
+                </div>
+
+                <h2>
+                    Your resume tells your story.
+                    <span>We help sharpen it.</span>
+                </h2>
+
+                <p>
+                    SkillSync uses artificial intelligence to understand
+                    the relationship between your resume and a target job.
+                    Instead of simply checking keywords, it provides
+                    practical insights into your skills, strengths,
+                    weaknesses and potential improvements.
+                </p>
+
+                <div class="about-points">
+
+                    <div>
+                        <span>01</span>
+                        <strong>Analyze</strong>
+                        <p>Understand your current resume.</p>
+                    </div>
+
+                    <div>
+                        <span>02</span>
+                        <strong>Compare</strong>
+                        <p>Match your profile against a role.</p>
+                    </div>
+
+                    <div>
+                        <span>03</span>
+                        <strong>Improve</strong>
+                        <p>Get actionable recommendations.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-container">
+
+            <div class="logo">
+                <span class="logo-mark">S</span>
+                <span>Skill<span>Sync</span></span>
+            </div>
+
+            <p>
+                AI-powered resume intelligence.
+            </p>
+
+            <span class="copyright">
+                © 2026 SkillSync
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
