@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         button.addEventListener("click", () => {
 
-            const input = document.getElementById(button.dataset.target);
+            const input =
+                document.getElementById(button.dataset.target);
 
             if (!input) return;
 
@@ -30,10 +31,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
+    // GET ALL REGISTERED USERS
+    // ==========================================
+
+    function getUsers() {
+
+        return JSON.parse(
+            localStorage.getItem("skillsync_users")
+        ) || [];
+
+    }
+
+
+    // ==========================================
+    // SAVE USERS
+    // ==========================================
+
+    function saveUsers(users) {
+
+        localStorage.setItem(
+            "skillsync_users",
+            JSON.stringify(users)
+        );
+
+    }
+
+
+    // ==========================================
     // SIGNUP
     // ==========================================
 
-    const signupForm = document.getElementById("signupForm");
+    const signupForm =
+        document.getElementById("signupForm");
+
 
     if (signupForm) {
 
@@ -41,31 +71,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
             e.preventDefault();
 
-            const name = document.getElementById("name").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value;
-            const confirmPassword =
-                document.getElementById("confirmPassword").value;
 
-            const message = document.getElementById("authMessage");
+            const name =
+                document.getElementById("name")
+                    .value
+                    .trim();
+
+            const email =
+                document.getElementById("email")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+            const password =
+                document.getElementById("password")
+                    .value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword")
+                    .value;
+
+            const message =
+                document.getElementById("authMessage");
 
 
             // Validation
-            if (!name || !email || !password || !confirmPassword) {
+            if (
+                !name ||
+                !email ||
+                !password ||
+                !confirmPassword
+            ) {
 
-                message.textContent = "Please fill in all fields.";
-                message.className = "auth-message error";
+                message.textContent =
+                    "Please fill in all fields.";
+
+                message.className =
+                    "auth-message error";
 
                 return;
+
             }
 
 
             if (password !== confirmPassword) {
 
-                message.textContent = "Passwords do not match.";
-                message.className = "auth-message error";
+                message.textContent =
+                    "Passwords do not match.";
+
+                message.className =
+                    "auth-message error";
 
                 return;
+
             }
 
 
@@ -74,28 +132,72 @@ document.addEventListener("DOMContentLoaded", () => {
                 message.textContent =
                     "Password must be at least 6 characters.";
 
-                message.className = "auth-message error";
+                message.className =
+                    "auth-message error";
 
                 return;
+
             }
 
 
-            // ==========================================
-            // SAVE USER
-            // ==========================================
+            // Get existing users
+            const users = getUsers();
 
-            const user = {
+
+            // Check duplicate email
+            const existingUser =
+                users.find(
+                    user =>
+                        user.email.toLowerCase() === email
+                );
+
+
+            if (existingUser) {
+
+                message.textContent =
+                    "An account with this email already exists.";
+
+                message.className =
+                    "auth-message error";
+
+                return;
+
+            }
+
+
+            // Create new user
+            const newUser = {
+
+                id: Date.now(),
+
                 name: name,
-                email: email
+
+                email: email,
+
+                password: password
+
             };
 
+
+            // Add user
+            users.push(newUser);
+
+
+            // Save all users
+            saveUsers(users);
+
+
+            // Set current logged-in user
             localStorage.setItem(
                 "skillsync_user",
-                JSON.stringify(user)
+                JSON.stringify({
+                    id: newUser.id,
+                    name: newUser.name,
+                    email: newUser.email
+                })
             );
 
 
-            // Mark user as logged in
             localStorage.setItem(
                 "skillsync_logged_in",
                 "true"
@@ -105,13 +207,14 @@ document.addEventListener("DOMContentLoaded", () => {
             message.textContent =
                 "Account created successfully!";
 
-            message.className = "auth-message success";
+            message.className =
+                "auth-message success";
 
 
-            // Redirect to dashboard
             setTimeout(() => {
 
-                window.location.href = "home.html";
+                window.location.href =
+                    "home.html";
 
             }, 700);
 
@@ -124,7 +227,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // LOGIN
     // ==========================================
 
-    const loginForm = document.getElementById("loginForm");
+    const loginForm =
+        document.getElementById("loginForm");
+
 
     if (loginForm) {
 
@@ -132,11 +237,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             e.preventDefault();
 
+
             const email =
-                document.getElementById("email").value.trim();
+                document.getElementById("email")
+                    .value
+                    .trim()
+                    .toLowerCase();
 
             const password =
-                document.getElementById("password").value;
+                document.getElementById("password")
+                    .value;
 
             const message =
                 document.getElementById("authMessage");
@@ -147,51 +257,53 @@ document.addEventListener("DOMContentLoaded", () => {
                 message.textContent =
                     "Please enter your email and password.";
 
-                message.className = "auth-message error";
+                message.className =
+                    "auth-message error";
 
                 return;
+
             }
 
 
-            // ==========================================
-            // GET SAVED USER
-            // ==========================================
+            // Get all registered users
+            const users = getUsers();
 
-            const savedUser =
-                JSON.parse(
-                    localStorage.getItem("skillsync_user")
+
+            // Find matching user
+            const user =
+                users.find(
+                    user =>
+                        user.email.toLowerCase() === email &&
+                        user.password === password
                 );
 
 
-            if (!savedUser) {
-
-                message.textContent =
-                    "No account found. Please create an account first.";
-
-                message.className = "auth-message error";
-
-                return;
-            }
-
-
-            // Check email
-            if (
-                savedUser.email.toLowerCase() !==
-                email.toLowerCase()
-            ) {
+            if (!user) {
 
                 message.textContent =
                     "Incorrect email or password.";
 
-                message.className = "auth-message error";
+                message.className =
+                    "auth-message error";
 
                 return;
+
             }
 
 
             // ==========================================
-            // LOGIN SUCCESS
+            // SET CURRENT USER
             // ==========================================
+
+            localStorage.setItem(
+                "skillsync_user",
+                JSON.stringify({
+                    id: user.id,
+                    name: user.name,
+                    email: user.email
+                })
+            );
+
 
             localStorage.setItem(
                 "skillsync_logged_in",
@@ -202,12 +314,14 @@ document.addEventListener("DOMContentLoaded", () => {
             message.textContent =
                 "Login successful!";
 
-            message.className = "auth-message success";
+            message.className =
+                "auth-message success";
 
 
             setTimeout(() => {
 
-                window.location.href = "home.html";
+                window.location.href =
+                    "home.html";
 
             }, 500);
 

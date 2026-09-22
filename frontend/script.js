@@ -441,68 +441,47 @@ if (analyzeButton) {
 // SAVE RECENT ANALYSIS
 // ==========================================
 
-function saveRecentAnalysis(analysis) {
+function saveRecentAnalysis(newAnalysis) {
 
+    // Get currently logged-in user
+    const user =
+        JSON.parse(
+            localStorage.getItem("skillsync_user")
+        );
+
+
+    // No user = don't save analysis
+    if (!user || !user.email) {
+
+        console.error(
+            "No logged-in user found. Analysis was not saved."
+        );
+
+        return;
+    }
+
+
+    // Create user-specific history key
+    const historyKey =
+        `skillsync_history_${user.email.toLowerCase()}`;
+
+
+    // Get this user's history
     const history =
         JSON.parse(
-            localStorage.getItem(
-                "skillsync_history"
-            )
+            localStorage.getItem(historyKey)
         ) || [];
 
 
-    const newAnalysis = {
-
-        id: Date.now(),
-
-        filename:
-            analysis.filename,
-
-        atsScore:
-            Number(analysis.atsScore || 0),
-
-        jobMatch:
-            Number(analysis.jobMatch || 0),
-
-        skills:
-            analysis.skills || [],
-
-        missingSkills:
-            analysis.missingSkills || [],
-
-        strengths:
-            analysis.strengths || [],
-
-        weaknesses:
-            analysis.weaknesses || [],
-
-        improvements:
-            analysis.improvements || [],
-
-        jobDescription:
-            analysis.jobDescription || "",
-
-        date:
-            new Date().toISOString()
-
-    };
+    // Add newest analysis
+    history.unshift(newAnalysis);
 
 
-    // Newest analysis first
-    history.unshift(
-        newAnalysis
-    );
-
-
-    // Keep latest 10
-    const limitedHistory =
-        history.slice(0, 10);
-
-
+    // Keep latest 10 analyses
     localStorage.setItem(
-        "skillsync_history",
+        historyKey,
         JSON.stringify(
-            limitedHistory
+            history.slice(0, 10)
         )
     );
 
@@ -732,54 +711,102 @@ function escapeHtml(value) {
 // ==========================================
 
 function loadSavedAnalysis() {
-    const params = new URLSearchParams(window.location.search);
-    const historyId = params.get("history");
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const historyId =
+        params.get("history");
+
 
     if (!historyId) {
         return;
     }
 
-    const savedAnalysis = localStorage.getItem("skillsync_selected_analysis");
 
-    if (!savedAnalysis) {
-        console.error("No saved analysis found.");
+    // Get current user
+    const user =
+        JSON.parse(
+            localStorage.getItem("skillsync_user")
+        );
+
+
+    if (!user || !user.email) {
+
+        console.error(
+            "No logged-in user found."
+        );
+
         return;
+
     }
 
-    try {
-        const analysis = JSON.parse(savedAnalysis);
 
-        // Display the saved analysis
+    // User-specific selected analysis
+    const selectedKey =
+        `skillsync_selected_analysis_${user.email.toLowerCase()}`;
+
+
+    const savedAnalysis =
+        localStorage.getItem(selectedKey);
+
+
+    if (!savedAnalysis) {
+
+        console.error(
+            "No saved analysis found for this user."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const analysis =
+            JSON.parse(savedAnalysis);
+
+
         displayResults(analysis);
 
-        // Show results section
+
         if (results) {
             results.hidden = false;
         }
 
-        // Hide loading section
+
         if (loading) {
             loading.hidden = true;
         }
 
-        // Change button text
-        if (analyzeButton) {
-            analyzeButton.textContent = "Analyze New Resume";
-        }
 
-        // Scroll to results
         setTimeout(() => {
+
             if (results) {
+
                 results.scrollIntoView({
                     behavior: "smooth",
                     block: "start"
                 });
+
             }
+
         }, 300);
 
+
     } catch (error) {
-        console.error("Error loading saved analysis:", error);
+
+        console.error(
+            "Error loading saved analysis:",
+            error
+        );
+
     }
+
 }
 
 loadSavedAnalysis();

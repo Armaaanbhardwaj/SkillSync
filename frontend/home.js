@@ -72,12 +72,32 @@ document.addEventListener("DOMContentLoaded", () => {
     // ANALYSIS HISTORY
     // ==========================================
 
+    function getHistoryKey() {
+
+        const user =
+            JSON.parse(
+                localStorage.getItem("skillsync_user")
+            );
+
+        if (!user || !user.email) {
+            return null;
+        }
+
+        return `skillsync_history_${user.email.toLowerCase()}`;
+    }
+
+
     function getAnalysisHistory() {
 
-        return JSON.parse(
-            localStorage.getItem("skillsync_history")
-        ) || [];
+        const key = getHistoryKey();
 
+        if (!key) {
+            return [];
+        }
+
+        return JSON.parse(
+            localStorage.getItem(key)
+        ) || [];
     }
 
 
@@ -297,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // VIEW ANALYSIS
     // ==========================================
 
-    window.viewAnalysis = function(id) {
+    window.viewAnalysis = function (id) {
 
         const history =
             getAnalysisHistory();
@@ -321,8 +341,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
+        const user =
+            JSON.parse(
+                localStorage.getItem("skillsync_user")
+            );
+
+
+        if (!user || !user.email) {
+
+            console.error(
+                "No logged-in user found."
+            );
+
+            return;
+
+        }
+
+
+        const selectedKey =
+            `skillsync_selected_analysis_${user.email.toLowerCase()}`;
+
+
         localStorage.setItem(
-            "skillsync_selected_analysis",
+            selectedKey,
             JSON.stringify(selected)
         );
 
@@ -331,8 +372,6 @@ document.addEventListener("DOMContentLoaded", () => {
             `analyzer.html?history=${id}`;
 
     };
-
-
     // ==========================================
     // FORMAT DATE
     // ==========================================
@@ -384,22 +423,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const logoutButton =
         document.getElementById("logoutButton");
 
-
     if (logoutButton) {
 
-        logoutButton.addEventListener(
-            "click",
-            () => {
+        logoutButton.addEventListener("click", () => {
 
-                localStorage.removeItem(
-                    "skillsync_logged_in"
-                );
+            // Only remove current login session
+            localStorage.removeItem("skillsync_logged_in");
 
-                window.location.href =
-                    "index.html";
+            localStorage.removeItem("skillsync_user");
 
-            }
-        );
+            // Go back to landing page
+            window.location.href = "index.html";
+
+        });
 
     }
 
