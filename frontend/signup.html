@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Account | SkillSync</title>
+
+    <link rel="stylesheet" href="auth.css">
+</head>
+
+<body>
+
+    <main class="auth-page">
+
+        <!-- LEFT SIDE -->
+        <section class="auth-brand">
+
+            <div class="brand-content">
+
+                <a href="index.html" class="brand-logo">
+                    Skill<span>Sync</span>
+                </a>
+
+
+                <div class="brand-main">
+
+                    <span class="brand-badge">
+                        AI-POWERED CAREER INTELLIGENCE
+                    </span>
+
+                    <h1>
+                        Build a stronger
+                        <br>
+                        <span>career profile.</span>
+                    </h1>
+
+                    <p>
+                        Create your SkillSync account and start
+                        understanding your resume with AI-powered
+                        insights.
+                    </p>
+
+                </div>
+
+
+                <div class="brand-features">
+
+                    <div class="brand-feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Analyze Your Resume
+                            </strong>
+
+                            <p>
+                                Get an AI-powered assessment of
+                                your resume.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="brand-feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Match With Jobs
+                            </strong>
+
+                            <p>
+                                Understand how your skills align
+                                with job descriptions.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="brand-feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Improve Your Profile
+                            </strong>
+
+                            <p>
+                                Receive practical recommendations
+                                for improvement.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SIDE -->
+        <section class="auth-form-section">
+
+            <div class="auth-card">
+
+                <!-- MOBILE LOGO -->
+                <a href="index.html" class="mobile-logo">
+                    Skill<span>Sync</span>
+                </a>
+
+
+                <div class="auth-heading">
+
+                    <h2>Create your account</h2>
+
+                    <p>
+                        Start analyzing your resume with SkillSync.
+                    </p>
+
+                </div>
+
+
+                <!-- SIGNUP FORM -->
+                <form id="signupForm" class="auth-form">
+
+
+                    <!-- NAME -->
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Create a password"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                data-target="password"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CONFIRM PASSWORD -->
+                    <div class="form-group">
+
+                        <label for="confirmPassword">
+                            Confirm password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                placeholder="Confirm your password"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                data-target="confirmPassword"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TERMS -->
+                    <div class="terms-checkbox">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="terms"
+                                required
+                            >
+
+                            <span>
+                                I agree to the
+                                <a href="#">Terms of Service</a>
+                                and
+                                <a href="#">Privacy Policy</a>.
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- MESSAGE -->
+                    <div
+                        id="authMessage"
+                        class="auth-message"
+                    ></div>
+
+
+                    <!-- SIGNUP BUTTON -->
+                    <button
+                        type="submit"
+                        class="auth-button"
+                    >
+                        Create Account
+                    </button>
+
+                </form>
+
+
+                <!-- LOGIN -->
+                <div class="auth-switch">
+
+                    <span>
+                        Already have an account?
+                    </span>
+
+                    <a href="login.html">
+                        Login
+                    </a>
+
+                </div>
+
+
+                <!-- TERMS -->
+                <p class="auth-terms">
+
+                    Your account information is used to
+                    provide SkillSync services.
+
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- AUTH JAVASCRIPT -->
+    <script src="auth.js"></script>
+
+</body>
+
+</html>

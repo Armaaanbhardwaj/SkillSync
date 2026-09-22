@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | SkillSync</title>
+
+    <link rel="stylesheet" href="auth.css">
+</head>
+
+<body>
+
+    <main class="auth-page">
+
+        <!-- LEFT SIDE -->
+        <section class="auth-brand">
+
+            <div class="brand-content">
+
+                <a href="index.html" class="brand-logo">
+                    Skill<span>Sync</span>
+                </a>
+
+                <div class="brand-main">
+
+                    <span class="brand-badge">
+                        AI-POWERED CAREER INTELLIGENCE
+                    </span>
+
+                    <h1>
+                        Your resume.
+                        <br>
+                        <span>Smarter.</span>
+                    </h1>
+
+                    <p>
+                        Analyze your resume, discover skill gaps,
+                        and understand how well your profile matches
+                        your target job.
+                    </p>
+
+                </div>
+
+                <div class="brand-features">
+
+                    <div class="brand-feature">
+                        <div class="feature-icon">✓</div>
+
+                        <div>
+                            <strong>AI Resume Analysis</strong>
+                            <p>
+                                Get an intelligent breakdown of your resume.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="brand-feature">
+                        <div class="feature-icon">✓</div>
+
+                        <div>
+                            <strong>Job Matching</strong>
+                            <p>
+                                Compare your skills with job requirements.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="brand-feature">
+                        <div class="feature-icon">✓</div>
+
+                        <div>
+                            <strong>Actionable Insights</strong>
+                            <p>
+                                Find exactly what you can improve.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SIDE -->
+        <section class="auth-form-section">
+
+            <div class="auth-card">
+
+                <!-- MOBILE LOGO -->
+                <a href="index.html" class="mobile-logo">
+                    Skill<span>Sync</span>
+                </a>
+
+
+                <div class="auth-heading">
+
+                    <h2>Welcome back</h2>
+
+                    <p>
+                        Sign in to continue to your SkillSync dashboard.
+                    </p>
+
+                </div>
+
+
+                <!-- LOGIN FORM -->
+                <form id="loginForm" class="auth-form">
+
+                    <!-- EMAIL -->
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+                    <div class="form-group">
+
+                        <div class="password-label-row">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <a
+                                href="#"
+                                class="forgot-password"
+                                onclick="return false;"
+                            >
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                data-target="password"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MESSAGE -->
+                    <div
+                        id="authMessage"
+                        class="auth-message"
+                    ></div>
+
+
+                    <!-- LOGIN BUTTON -->
+                    <button
+                        type="submit"
+                        class="auth-button"
+                    >
+                        Login
+                    </button>
+
+                </form>
+
+
+                <!-- SIGNUP -->
+                <div class="auth-switch">
+
+                    <span>
+                        Don't have an account?
+                    </span>
+
+                    <a href="signup.html">
+                        Create an account
+                    </a>
+
+                </div>
+
+
+                <!-- TERMS -->
+                <p class="auth-terms">
+
+                    By continuing, you agree to SkillSync's
+                    <a href="#">Terms of Service</a>
+                    and
+                    <a href="#">Privacy Policy</a>.
+
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- AUTH JAVASCRIPT -->
+    <script src="auth.js"></script>
+
+</body>
+
+</html>

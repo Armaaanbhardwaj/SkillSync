@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="SkillSync dashboard."
+    >
+
+    <title>Dashboard — SkillSync</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="dashboard-navbar">
+
+        <div class="dashboard-nav-container">
+
+            <a href="home.html" class="logo">
+
+                <span class="logo-mark">
+                    S
+                </span>
+
+                <span>
+                    Skill<span>Sync</span>
+                </span>
+
+            </a>
+
+
+            <nav class="dashboard-nav-links">
+
+                <a
+                    href="home.html"
+                    class="active"
+                >
+                    Dashboard
+                </a>
+
+                <a href="analyzer.html">
+                    Analyzer
+                </a>
+
+            </nav>
+
+
+            <div class="dashboard-actions">
+
+                <div class="user-menu">
+
+                    <div class="user-avatar" id="userAvatar">
+                        U
+                    </div>
+
+                    <div class="user-info">
+
+                        <strong id="userName">
+                            User
+                        </strong>
+
+                        <span id="userEmail">
+                            user@example.com
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="logoutButton"
+                    class="logout-button"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="dashboard-main">
+
+
+        <!-- WELCOME -->
+
+        <section class="welcome-section">
+
+            <div>
+
+                <div class="section-label">
+                    DASHBOARD
+                </div>
+
+                <h1>
+                    Welcome back,
+                    <span id="welcomeName">
+                        there
+                    </span>.
+                </h1>
+
+                <p>
+                    Ready to make your next application stronger?
+                </p>
+
+            </div>
+
+
+            <a
+                href="analyzer.html"
+                class="new-analysis-button"
+            >
+
+                <span>+</span>
+
+                New Analysis
+
+            </a>
+
+        </section>
+
+
+        <!-- ================= MAIN ANALYZER CTA ================= -->
+
+        <section class="dashboard-hero-card">
+
+            <div class="dashboard-hero-content">
+
+                <div class="dashboard-hero-label">
+                    AI RESUME INTELLIGENCE
+                </div>
+
+                <h2>
+                    See how your resume
+                    <span>fits the role.</span>
+                </h2>
+
+                <p>
+                    Upload your resume and compare it against a
+                    job description to get AI-powered insights,
+                    skill matching and improvement recommendations.
+                </p>
+
+                <a
+                    href="analyzer.html"
+                    class="hero-analysis-button"
+                >
+                    Start Analysis
+                    <span>→</span>
+                </a>
+
+            </div>
+
+
+            <div class="dashboard-visual">
+
+                <div class="visual-score">
+
+                    <span>
+                        JOB MATCH
+                    </span>
+
+                    <strong>
+                        90
+                    </strong>
+
+                    <small>
+                        /100
+                    </small>
+
+                </div>
+
+
+                <div class="visual-skills">
+
+                    <span>Java</span>
+                    <span>C++</span>
+                    <span>SQL</span>
+                    <span>Git</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= STATS ================= -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ◈
+                </div>
+
+                <div>
+
+                    <span>
+                        TOTAL ANALYSES
+                    </span>
+
+                    <strong id="analysisCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Resume analyses
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ◎
+                </div>
+
+                <div>
+
+                    <span>
+                        AVERAGE MATCH
+                    </span>
+
+                    <strong id="averageMatch">
+                        --
+                    </strong>
+
+                    <small>
+                        Across analyses
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    □
+                </div>
+
+                <div>
+
+                    <span>
+                        RESUMES
+                    </span>
+
+                    <strong id="resumeCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Uploaded resumes
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RECENT ANALYSIS ================= -->
+
+        <section class="recent-section">
+
+            <div class="section-heading-row">
+
+                <div>
+
+                    <div class="section-label">
+                        ACTIVITY
+                    </div>
+
+                    <h2>
+                        Recent analyses
+                    </h2>
+
+                </div>
+
+
+                <a
+                    href="analyzer.html"
+                    class="view-all-button"
+                >
+                    Analyze another →
+                </a>
+
+            </div>
+
+
+            <div
+                id="recentAnalyses"
+                class="recent-list"
+            >
+
+                <!-- JavaScript will populate this -->
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ✦
+                    </div>
+
+                    <h3>
+                        No analyses yet
+                    </h3>
+
+                    <p>
+                        Your resume analyses will appear here.
+                    </p>
+
+                    <a href="./analyzer.html">
+                        Start your first analysis →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= QUICK TIPS ================= -->
+
+        <section class="tips-section">
+
+            <div class="tips-card">
+
+                <div class="tips-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <div class="section-label">
+                        QUICK TIP
+                    </div>
+
+                    <h3>
+                        Tailor your resume to every role.
+                    </h3>
+
+                    <p>
+                        A resume that reflects the skills and
+                        requirements of a specific job can make
+                        your application more relevant.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-container">
+
+            <span>
+                © 2026 SkillSync
+            </span>
+
+            <span>
+                AI-powered resume intelligence.
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script src="home.js"></script>
+
+</body>
+
+</html>

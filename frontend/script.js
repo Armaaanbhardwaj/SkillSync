@@ -1,5 +1,5 @@
 // ==========================================
-// SKILLSYNC FRONTEND
+// SKILLSYNC ANALYZER FRONTEND
 // ==========================================
 
 
@@ -10,8 +10,8 @@
 const resumeInput =
     document.getElementById("resume");
 
-const fileName =
-    document.getElementById("file-name");
+const uploadArea =
+    document.querySelector(".upload-area");
 
 const jobDescription =
     document.getElementById("jobDescription");
@@ -19,11 +19,8 @@ const jobDescription =
 const analyzeButton =
     document.getElementById("analyzeButton");
 
-const status =
-    document.getElementById("status");
-
-const statusText =
-    document.getElementById("status-text");
+const loading =
+    document.getElementById("loading");
 
 const results =
     document.getElementById("results");
@@ -33,240 +30,483 @@ const results =
 // FILE SELECTION
 // ==========================================
 
-resumeInput.addEventListener(
-    "change",
-    () => {
+if (resumeInput) {
 
-        if (resumeInput.files.length === 0) {
+    resumeInput.addEventListener(
+        "change",
+        function () {
 
-            fileName.textContent = "";
+            const file = this.files[0];
 
-            return;
+            if (!file) {
+                return;
+            }
+
+
+            // ==================================
+            // CHECK PDF
+            // ==================================
+
+            if (
+                file.type !== "application/pdf" &&
+                !file.name
+                    .toLowerCase()
+                    .endsWith(".pdf")
+            ) {
+
+                alert(
+                    "Please upload a PDF file."
+                );
+
+                resumeInput.value = "";
+
+                return;
+            }
+
+
+            // ==================================
+            // CHECK SIZE
+            // ==================================
+
+            const maxSize =
+                4 * 1024 * 1024;
+
+
+            if (file.size > maxSize) {
+
+                alert(
+                    "PDF must be smaller than 4 MB."
+                );
+
+                resumeInput.value = "";
+
+                return;
+            }
+
+
+            // ==================================
+            // FILE SIZE
+            // ==================================
+
+            const fileSize =
+                (
+                    file.size /
+                    (1024 * 1024)
+                ).toFixed(2);
+
+
+            // ==================================
+            // UPDATE UPLOAD UI
+            // ==================================
+
+            uploadArea.classList.add(
+                "file-selected"
+            );
+
+
+            uploadArea.innerHTML = `
+
+                <div class="selected-file-icon">
+                    ✓
+                </div>
+
+                <div class="selected-file-info">
+
+                    <strong
+                        title="${escapeHtml(file.name)}"
+                    >
+                        ${escapeHtml(file.name)}
+                    </strong>
+
+                    <span>
+                        PDF • ${fileSize} MB
+                    </span>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="change-file"
+                    id="changeFile"
+                >
+                    Change file
+                </button>
+
+            `;
+
+
+            // Put original input back
+            uploadArea.appendChild(
+                resumeInput
+            );
+
+
+            // ==================================
+            // CHANGE FILE
+            // ==================================
+
+            const changeFile =
+                document.getElementById(
+                    "changeFile"
+                );
+
+
+            if (changeFile) {
+
+                changeFile.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+
+                        event.stopPropagation();
+
+                        resumeInput.click();
+
+                    }
+                );
+
+            }
+
         }
+    );
 
-
-        const file =
-            resumeInput.files[0];
-
-
-        fileName.textContent =
-            `Selected: ${file.name}`;
-
-    }
-);
+}
 
 
 // ==========================================
 // ANALYZE RESUME
 // ==========================================
 
-analyzeButton.addEventListener(
-    "click",
-    async () => {
+if (analyzeButton) {
 
-        // ======================================
-        // VALIDATE RESUME
-        // ======================================
+    analyzeButton.addEventListener(
+        "click",
+        async function () {
 
-        if (resumeInput.files.length === 0) {
-
-            alert(
-                "Please upload your resume first."
-            );
-
-            return;
-        }
-
-
-        // ======================================
-        // VALIDATE JOB DESCRIPTION
-        // ======================================
-
-        const jobText =
-            jobDescription.value.trim();
-
-
-        if (!jobText) {
-
-            alert(
-                "Please enter the job description."
-            );
-
-            return;
-        }
-
-
-        // ======================================
-        // GET FILE
-        // ======================================
-
-        const resumeFile =
-            resumeInput.files[0];
-
-
-        // ======================================
-        // CHECK FILE TYPE
-        // ======================================
-
-        if (
-            resumeFile.type !==
-            "application/pdf"
-        ) {
-
-            alert(
-                "Please upload a PDF resume."
-            );
-
-            return;
-        }
-
-
-        // ======================================
-        // CREATE FORM DATA
-        // ======================================
-
-        const formData =
-            new FormData();
-
-
-        formData.append(
-            "resume",
-            resumeFile
-        );
-
-
-        formData.append(
-            "jobDescription",
-            jobText
-        );
-
-
-        // ======================================
-        // SHOW LOADING
-        // ======================================
-
-        analyzeButton.disabled = true;
-
-        analyzeButton.textContent =
-            "Analyzing...";
-
-
-        status.hidden = false;
-
-        statusText.textContent =
-            "Uploading and analyzing your resume...";
-
-
-        // Hide previous results
-        results.hidden = true;
-
-
-        try {
 
             // ==================================
-            // SEND REQUEST TO BACKEND
+            // CHECK RESUME
             // ==================================
 
-            const response =
-                await fetch(
-                    "http://localhost:5000/analyze-uploaded-resume",
-                    {
-                        method: "POST",
-                        body: formData
-                    }
+            if (
+                !resumeInput ||
+                !resumeInput.files ||
+                resumeInput.files.length === 0
+            ) {
+
+                alert(
+                    "Please upload your resume first."
                 );
 
-
-            // ==================================
-            // GET RESPONSE
-            // ==================================
-
-            const data =
-                await response.json();
-
-
-            // ==================================
-            // CHECK RESPONSE
-            // ==================================
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.error ||
-                    data.message ||
-                    "Something went wrong."
-                );
-
+                return;
             }
 
 
             // ==================================
-            // GET ANALYSIS
+            // CHECK JOB DESCRIPTION
             // ==================================
 
-            const analysis =
-                data.analysis;
+            const jobText =
+                jobDescription.value.trim();
+
+
+            if (!jobText) {
+
+                alert(
+                    "Please enter the job description."
+                );
+
+                jobDescription.focus();
+
+                return;
+            }
 
 
             // ==================================
-            // DISPLAY RESULTS
+            // GET FILE
             // ==================================
 
-            displayResults(
-                analysis
+            const resumeFile =
+                resumeInput.files[0];
+
+
+            // ==================================
+            // CREATE FORM DATA
+            // ==================================
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "resume",
+                resumeFile
+            );
+
+
+            formData.append(
+                "jobDescription",
+                jobText
             );
 
 
             // ==================================
-            // HIDE LOADING
+            // LOADING
             // ==================================
 
-            status.hidden = true;
+            analyzeButton.disabled = true;
+
+            analyzeButton.innerHTML = `
+                <span class="button-spinner"></span>
+                Analyzing...
+            `;
 
 
-            // ==================================
-            // SHOW RESULTS
-            // ==================================
-
-            results.hidden = false;
+            if (loading) {
+                loading.hidden = false;
+            }
 
 
-            // Scroll to results
-            results.scrollIntoView({
-                behavior: "smooth"
-            });
+            if (results) {
+                results.hidden = true;
+            }
 
 
-        } catch (error) {
+            try {
 
-            console.error(
-                "SkillSync Error:",
-                error
-            );
+                // ==================================
+                // SEND TO BACKEND
+                // ==================================
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/analyze-uploaded-resume",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
 
 
-            alert(
-                `Analysis failed: ${error.message}`
-            );
+                // ==================================
+                // RESPONSE
+                // ==================================
+
+                const data =
+                    await response.json();
 
 
-            status.hidden = true;
+                if (!response.ok) {
 
-        } finally {
+                    throw new Error(
+                        data.error ||
+                        data.message ||
+                        "Resume analysis failed."
+                    );
 
-            // ==================================
-            // RESET BUTTON
-            // ==================================
+                }
 
-            analyzeButton.disabled = false;
 
-            analyzeButton.textContent =
-                "Analyze Resume";
+                // ==================================
+                // GET ANALYSIS
+                // ==================================
+
+                const analysis =
+                    data.analysis;
+
+
+                if (!analysis) {
+
+                    throw new Error(
+                        "No analysis was returned by the server."
+                    );
+
+                }
+
+
+                // ==================================
+                // DISPLAY RESULTS
+                // ==================================
+
+                displayResults(
+                    analysis
+                );
+
+
+                // ==================================
+                // SAVE HISTORY
+                // ==================================
+
+                saveRecentAnalysis({
+
+                    filename:
+                        resumeFile.name,
+
+                    atsScore:
+                        analysis.atsScore,
+
+                    jobMatch:
+                        analysis.jobMatch,
+
+                    skills:
+                        analysis.skills || [],
+
+                    missingSkills:
+                        analysis.missingSkills || [],
+
+                    strengths:
+                        analysis.strengths || [],
+
+                    weaknesses:
+                        analysis.weaknesses || [],
+
+                    improvements:
+                        analysis.improvements || [],
+
+                    jobDescription:
+                        jobText
+
+                });
+
+
+                // ==================================
+                // HIDE LOADING
+                // ==================================
+
+                if (loading) {
+                    loading.hidden = true;
+                }
+
+
+                // ==================================
+                // SHOW RESULTS
+                // ==================================
+
+                if (results) {
+
+                    results.hidden = false;
+
+                    setTimeout(() => {
+
+                        results.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+
+                    }, 100);
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "SkillSync Error:",
+                    error
+                );
+
+
+                alert(
+                    `Analysis failed: ${error.message}`
+                );
+
+
+                if (loading) {
+                    loading.hidden = true;
+                }
+
+            } finally {
+
+                // ==================================
+                // RESET BUTTON
+                // ==================================
+
+                analyzeButton.disabled = false;
+
+                analyzeButton.innerHTML = `
+                    Analyze Resume
+                    <span>→</span>
+                `;
+
+            }
 
         }
+    );
 
-    }
-);
+}
+
+
+// ==========================================
+// SAVE RECENT ANALYSIS
+// ==========================================
+
+function saveRecentAnalysis(analysis) {
+
+    const history =
+        JSON.parse(
+            localStorage.getItem(
+                "skillsync_history"
+            )
+        ) || [];
+
+
+    const newAnalysis = {
+
+        id: Date.now(),
+
+        filename:
+            analysis.filename,
+
+        atsScore:
+            Number(analysis.atsScore || 0),
+
+        jobMatch:
+            Number(analysis.jobMatch || 0),
+
+        skills:
+            analysis.skills || [],
+
+        missingSkills:
+            analysis.missingSkills || [],
+
+        strengths:
+            analysis.strengths || [],
+
+        weaknesses:
+            analysis.weaknesses || [],
+
+        improvements:
+            analysis.improvements || [],
+
+        jobDescription:
+            analysis.jobDescription || "",
+
+        date:
+            new Date().toISOString()
+
+    };
+
+
+    // Newest analysis first
+    history.unshift(
+        newAnalysis
+    );
+
+
+    // Keep latest 10
+    const limitedHistory =
+        history.slice(0, 10);
+
+
+    localStorage.setItem(
+        "skillsync_history",
+        JSON.stringify(
+            limitedHistory
+        )
+    );
+
+}
 
 
 // ==========================================
@@ -275,30 +515,17 @@ analyzeButton.addEventListener(
 
 function displayResults(analysis) {
 
-
-    // ======================================
-    // ATS SCORE
-    // ======================================
-
     document.getElementById(
         "atsScore"
     ).textContent =
-        analysis.atsScore;
+        analysis.atsScore ?? 0;
 
-
-    // ======================================
-    // JOB MATCH
-    // ======================================
 
     document.getElementById(
         "jobMatch"
     ).textContent =
-        analysis.jobMatch;
+        analysis.jobMatch ?? 0;
 
-
-    // ======================================
-    // SKILLS
-    // ======================================
 
     displayTags(
         "skills",
@@ -306,19 +533,11 @@ function displayResults(analysis) {
     );
 
 
-    // ======================================
-    // MISSING SKILLS
-    // ======================================
-
     displayTags(
         "missingSkills",
         analysis.missingSkills
     );
 
-
-    // ======================================
-    // STRENGTHS
-    // ======================================
 
     displayList(
         "strengths",
@@ -326,19 +545,11 @@ function displayResults(analysis) {
     );
 
 
-    // ======================================
-    // WEAKNESSES
-    // ======================================
-
     displayList(
         "weaknesses",
         analysis.weaknesses
     );
 
-
-    // ======================================
-    // IMPROVEMENTS
-    // ======================================
 
     displayList(
         "improvements",
@@ -363,11 +574,16 @@ function displayTags(
         );
 
 
+    if (!container) {
+        return;
+    }
+
+
     container.innerHTML = "";
 
 
     if (
-        !items ||
+        !Array.isArray(items) ||
         items.length === 0
     ) {
 
@@ -436,11 +652,16 @@ function displayList(
         );
 
 
+    if (!list) {
+        return;
+    }
+
+
     list.innerHTML = "";
 
 
     if (
-        !items ||
+        !Array.isArray(items) ||
         items.length === 0
     ) {
 
@@ -484,3 +705,81 @@ function displayList(
     );
 
 }
+
+
+// ==========================================
+// HTML ESCAPE
+// ==========================================
+
+function escapeHtml(value) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        value || "";
+
+
+    return div.innerHTML;
+
+}
+
+// ==========================================
+// VIEW SAVED ANALYSIS
+// ==========================================
+
+function loadSavedAnalysis() {
+    const params = new URLSearchParams(window.location.search);
+    const historyId = params.get("history");
+
+    if (!historyId) {
+        return;
+    }
+
+    const savedAnalysis = localStorage.getItem("skillsync_selected_analysis");
+
+    if (!savedAnalysis) {
+        console.error("No saved analysis found.");
+        return;
+    }
+
+    try {
+        const analysis = JSON.parse(savedAnalysis);
+
+        // Display the saved analysis
+        displayResults(analysis);
+
+        // Show results section
+        if (results) {
+            results.hidden = false;
+        }
+
+        // Hide loading section
+        if (loading) {
+            loading.hidden = true;
+        }
+
+        // Change button text
+        if (analyzeButton) {
+            analyzeButton.textContent = "Analyze New Resume";
+        }
+
+        // Scroll to results
+        setTimeout(() => {
+            if (results) {
+                results.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+        }, 300);
+
+    } catch (error) {
+        console.error("Error loading saved analysis:", error);
+    }
+}
+
+loadSavedAnalysis();

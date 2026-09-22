@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Analyzer | SkillSync</title>
+
+    <link rel="stylesheet" href="anlayzer.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVBAR 
+         ===================================================== -->
+
+    <nav class="analyzer-navbar">
+
+        <div class="analyzer-nav-container">
+
+            <!-- SKILLSYNC LOGO -->
+            <a href="home.html" class="skillsync-logo">
+
+                <span class="logo-mark">
+                    S
+                </span>
+
+                <span class="logo-text">
+                    Skill<span>Sync</span>
+                </span>
+
+            </a>
+
+
+            <!-- NAVIGATION -->
+            <div class="analyzer-nav-links">
+
+                <a href="home.html">
+                    Dashboard
+                </a>
+
+                <a
+                    href="analyzer.html"
+                    class="active"
+                >
+                    Analyzer
+                </a>
+
+            </div>
+
+
+            <!-- BACK BUTTON -->
+            <a
+                href="home.html"
+                class="back-dashboard"
+            >
+                ← Dashboard
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <header class="analyzer-hero">
+
+        <div class="hero-badge">
+            AI-POWERED RESUME INTELLIGENCE
+        </div>
+
+
+        <h1>
+            Understand how your resume
+            <span>fits the role.</span>
+        </h1>
+
+
+        <p>
+            Upload your resume and provide a job description.
+            SkillSync will analyze both and generate
+            personalized insights.
+        </p>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN ANALYZER
+         ===================================================== -->
+
+    <main class="analyzer-main">
+
+
+        <!-- =================================================
+             INPUT CARDS
+             ================================================= -->
+
+        <section class="input-grid">
+
+
+            <!-- =============================================
+                 RESUME
+                 ============================================= -->
+
+            <div class="input-card">
+
+                <div class="card-top">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Upload your resume
+                        </h2>
+
+                        <p>
+                            PDF files up to 4 MB
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- UPLOAD -->
+                <label
+                    for="resume"
+                    class="upload-area"
+                >
+
+                    <div class="upload-icon">
+                        ↑
+                    </div>
+
+
+                    <h3>
+                        Drop your resume here
+                    </h3>
+
+
+                    <p>
+                        or browse from your computer
+                    </p>
+
+
+                    <span class="file-type">
+                        PDF format only
+                    </span>
+
+
+                    <span class="browse-button">
+                        Choose PDF
+                    </span>
+
+
+                    <input
+                        type="file"
+                        id="resume"
+                        name="resume"
+                        accept=".pdf"
+                        hidden
+                    >
+
+                </label>
+
+
+                <div
+                    id="fileInfo"
+                    class="file-info"
+                    hidden
+                ></div>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 JOB DESCRIPTION
+                 ============================================= -->
+
+            <div class="input-card">
+
+                <div class="card-top">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Job description
+                        </h2>
+
+                        <p>
+                            Paste the role you're targeting
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="job-editor">
+
+                    <textarea
+                        id="jobDescription"
+                        placeholder="Paste the job description here..."
+                    ></textarea>
+
+
+                    <div class="editor-footer">
+
+                        <span>
+                            Add the complete job description
+                            for better matching.
+                        </span>
+
+                        <span>
+                            AI Analysis
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ACTION
+             ================================================= -->
+
+        <section class="analyze-action">
+
+            <div class="ai-note">
+
+                <span class="ai-check">
+                    ✓
+                </span>
+
+                AI-powered analysis
+
+            </div>
+
+
+            <button
+                id="analyzeButton"
+                class="analyze-button"
+            >
+                Analyze Resume
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <p>
+                Your resume is processed securely and analyzed
+                against the job requirements.
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             LOADING
+             ================================================= -->
+
+        <section
+            id="loading"
+            class="loading-card"
+            hidden
+        >
+
+            <div class="spinner"></div>
+
+            <h3>
+                Analyzing your resume
+            </h3>
+
+            <p>
+                Extracting information and comparing your
+                profile with the job description...
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             RESULTS
+             ================================================= -->
+
+        <section
+            id="results"
+            class="results-section"
+            hidden
+        >
+
+            <div class="results-header">
+
+                <div class="hero-badge">
+                    ANALYSIS COMPLETE
+                </div>
+
+                <h2>
+                    Your resume analysis
+                </h2>
+
+                <p>
+                    Here's what SkillSync found.
+                </p>
+
+            </div>
+
+
+            <!-- SCORES -->
+
+            <div class="score-grid">
+
+                <div class="score-card">
+
+                    <div>
+
+                        <span>
+                            ATS Compatibility
+                        </span>
+
+                        <strong id="atsScore">
+                            0
+                        </strong>
+
+                        <small>
+                            / 100
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="score-card">
+
+                    <div>
+
+                        <span>
+                            Job Compatibility
+                        </span>
+
+                        <strong id="jobMatch">
+                            0
+                        </strong>
+
+                        <small>
+                            / 100
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RESULT CARDS -->
+
+            <div class="results-grid">
+
+
+                <div class="result-card">
+
+                    <h3>
+                        Matched Skills
+                    </h3>
+
+                    <div
+                        id="skills"
+                        class="tag-container"
+                    ></div>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <h3>
+                        Missing Skills
+                    </h3>
+
+                    <div
+                        id="missingSkills"
+                        class="tag-container"
+                    ></div>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <h3>
+                        Strengths
+                    </h3>
+
+                    <ul id="strengths"></ul>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <h3>
+                        Areas to Improve
+                    </h3>
+
+                    <ul id="weaknesses"></ul>
+
+                </div>
+
+
+                <div class="result-card full-width">
+
+                    <h3>
+                        Recommended Actions
+                    </h3>
+
+                    <ul id="improvements"></ul>
+
+                </div>
+
+            </div>
+
+
+            <div class="analysis-disclaimer">
+
+                <strong>
+                    AI-generated analysis
+                </strong>
+
+                <p>
+                    SkillSync's scores and recommendations are
+                    generated using AI and should be used as
+                    guidance.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
