@@ -281,7 +281,7 @@ if (analyzeButton) {
 
                 const response =
                     await fetch(
-                        "http://localhost:5000/analyze-uploaded-resume",
+                        "/analyze-uploaded-resume",
                         {
                             method: "POST",
                             body: formData
