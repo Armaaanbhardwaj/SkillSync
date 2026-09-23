@@ -61,7 +61,6 @@ app.use(express.urlencoded({ extended: true }));
 // http://localhost:5000/frontend/analyzer.html
 
 app.use(
-    "/frontend",
     express.static(
         path.join(__dirname, "../frontend")
     )
@@ -129,12 +128,9 @@ const openai = new OpenAI({
 // =========================================================
 
 app.get("/", (req, res) => {
-
-    res.json({
-        message: "SkillSync backend is running",
-        status: "OK"
-    });
-
+    res.sendFile(
+        path.join(__dirname, "../frontend/index.html")
+    );
 });
 
 
